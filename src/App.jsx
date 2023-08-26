@@ -52,7 +52,12 @@ function App() {
     const updateObjectById=(updatedTag, originalObj)=>{
       if (originalObj.id === updatedTag.id) {
         console.log("updatedTag: ", updatedTag)
-        return { ...originalObj, ...updatedTag };
+        if ('data' in updatedTag) {
+          return { ...originalObj, ...updatedTag };
+        } else {
+          const { data, ...rest } = originalObj;
+          return { ...rest, ...updatedTag };
+        }
       }
     
       if (originalObj.children) {

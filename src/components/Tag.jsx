@@ -17,10 +17,13 @@ const Tag = ({ currTag, onTagDataChange }) => {
     }
   
     const addChildHandler = () => {
-      if(currentTag.data) delete currentTag.data;
+      const {data, ...rest}= currentTag;
       const updatedTag = {
-        ...currentTag,
-        children: [...(currentTag.children || []), { id: uuidv4(), name: 'New Child', data: 'Data' }]
+        ...rest,
+        children: [
+          ...(currentTag.children || []), 
+          { id: uuidv4(), name: 'New Child', data: 'Data' }
+        ]
       };
       setExpanded(true); // Expand the parent to show the newly added child
       updateAndNotifyChange(updatedTag);
