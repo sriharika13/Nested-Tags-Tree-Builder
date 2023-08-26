@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { v4 as uuidv4 } from 'uuid';
 import EditableDiv from './EditableDiv'
 import TagView from "./TagView";
@@ -6,48 +6,42 @@ import TagView from "./TagView";
 const Tag = ({ currTag, onTagDataChange }) => {
     const [expanded, setExpanded] = useState(false)
     const [currentTag, setCurrentTag]= useState(currTag)
+
+    const updateAndNotifyChange = (updatedTag) => {
+      setCurrentTag(updatedTag);
+      onTagDataChange(updatedTag);
+    }
   
     const toggleExpand = () => {
       setExpanded(!expanded);
     }
   
     const addChildHandler = () => {
-      console.log("AddChildHandler")
-      setCurrentTag(currtag => {
-          const { data, ...rest } = currtag; // Extract data property and rest of the properties, if data not present, then its undefined
-          return {
-            ...rest,
-            children: [...(currtag.children || []), { id: uuidv4(), name: 'New Child', data: 'Data' }]
-          };
-        });
+      if(currentTag.data) delete currentTag.data;
+      const updatedTag = {
+        ...currentTag,
+        children: [...(currentTag.children || []), { id: uuidv4(), name: 'New Child', data: 'Data' }]
+      };
       setExpanded(true); // Expand the parent to show the newly added child
-      onTagDataChange(currentTag)
+      updateAndNotifyChange(updatedTag);
     }
   
     const handleDataChange = (event) => {
-      console.log("HandleDataChange")
-      setCurrentTag(currtag=>{
-        const {data, ...rest}= currtag;
-        return {
-          data: event.target.value,
-          ...rest
-        }
-      }); // Update edited data
-      onTagDataChange(currentTag); // Lifted state change
+      const updatedTag = {
+        ...currentTag,
+        data: event.target.value
+      };
+      updateAndNotifyChange(updatedTag);
     }
   
-    const changeNameHandler=(updatedName)=>{
-      console.log("ChangeNameHandler")
-      setCurrentTag(currtag=>{
-        const {name, ...rest}= currtag;
-        return {
-          name: updatedName,
-          ...rest
-        }
-      });
-      onTagDataChange(currentTag)
+    const changeNameHandler= (updatedName)=>{
+      const updatedTag = {
+        ...currentTag,
+        name: updatedName
+      };
+      updateAndNotifyChange(updatedTag);
     }
-  
+
     return (
       <li className='tag'>
         <div className='tag-box'>

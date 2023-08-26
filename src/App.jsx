@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import TagView from './components/TagView';
 
@@ -51,6 +51,7 @@ function App() {
     console.log("updatedTag from app.js ", updatedTag)
     const updateObjectById=(updatedTag, originalObj)=>{
       if (originalObj.id === updatedTag.id) {
+        console.log("updatedTag: ", updatedTag)
         return { ...originalObj, ...updatedTag };
       }
     
