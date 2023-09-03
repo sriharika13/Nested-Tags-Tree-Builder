@@ -48,10 +48,9 @@ function App() {
   }
 
   const tagDataChangeHandler = (updatedTag) => {
-    console.log("updatedTag from app.js ", updatedTag)
     const updateObjectById=(updatedTag, originalObj)=>{
       if (originalObj.id === updatedTag.id) {
-        console.log("updatedTag: ", updatedTag)
+        console.log("updatedTag from App.jsx: ", updatedTag)
         if ('data' in updatedTag) {
           return { ...originalObj, ...updatedTag };
         } else {

@@ -14,7 +14,7 @@ const EditableDiv=({name, onChangeName})=>{
   
     const handleInputBlur = () => {
       setIsEditing(false);
-      // console.log('Edited text:', text);
+      console.log('Edited text:', text);
       onChangeName(text)
     };
   
